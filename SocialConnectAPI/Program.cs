@@ -1,9 +1,11 @@
 using BAL;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using Microsoft.Net.Http.Headers;
+using Microsoft.OpenApi.Models;
 using MODEL.CommonConfig;
+using SocialConnectAPI.BAL.Service;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,6 +29,37 @@ builder.Services.AddCors(options =>
               .SetIsOriginAllowed(origin => true)
               .AllowCredentials());
 });
+// Create the wwwroot/uploads/images directory if it doesn't exist
+
+var webRootPath = Path.Combine(builder.Environment.ContentRootPath, "wwwroot");
+if (!Directory.Exists(webRootPath))
+{
+    Directory.CreateDirectory(webRootPath);
+}
+
+var uploadsPath = Path.Combine(webRootPath, "uploads", "images");
+if (!Directory.Exists(uploadsPath))
+{
+    Directory.CreateDirectory(uploadsPath);
+}
+builder.Services.AddHttpContextAccessor();
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.ValueLengthLimit = int.MaxValue;
+    options.MultipartBodyLengthLimit = int.MaxValue;
+    options.MultipartHeadersLengthLimit = int.MaxValue;
+});
+// Program.cs
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("AllowAll", builder =>
+//    {
+//        builder.AllowAnyOrigin()
+//               .AllowAnyMethod()
+//               .AllowAnyHeader()
+//               .WithExposedHeaders("Content-Disposition");
+//    });
+//});
 
 builder.Services.AddAuthentication(options =>
 {
@@ -89,7 +122,7 @@ if (app.Environment.IsDevelopment())
 app.UseSwagger();
 
 app.UseSwaggerUI();
-
+app.UseStaticFiles();
 app.UseHttpsRedirection();
 
 app.UseAuthentication();

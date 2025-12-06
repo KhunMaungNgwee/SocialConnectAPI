@@ -21,6 +21,7 @@ namespace BAL
                 services.AddScoped<IPostService, PostService>();
                 services.AddScoped<IProfileService, ProfileService>();
                 services.AddScoped<INewsfeedService, NewsfeedService>();
-            }
+                services.AddScoped<IFileService, FileService>();
+        }
         }
     }
