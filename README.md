@@ -30,7 +30,7 @@ Database: SQL Server with Entity Framework Core
 
 Documentation: Swagger/OpenAPI
 
-Testing: xUnit / Moq
+Testing: xUnit 
 
 Containerization: Docker
 
@@ -43,7 +43,7 @@ SQL Server
 Visual Studio 2022 or VS Code
 
 Step 1: Clone the Repository
-bash
+
 git clone https://github.com/KhunMaungNgwe/SocialConnectAPI.git
 cd SocialConnectAPI
 Step 2: Configure Database
@@ -51,14 +51,15 @@ Update the connection string in appsettings.json:
 
 json
 {
-  "ConnectionStrings": {
-    "DefaultConnection": "Server=localhost;Database=SocialAppDB;Trusted_Connection=True;TrustServerCertificate=True;"
-  }
+ "AppSetting": {
+   "ConnectionString": "Server=(localdb)\\MyLocalDb;Database=SocialAppDB;Trusted_Connection=True;"
+
+ },
 }
 Step 3: Run Migrations
-bash
+
 dotnet ef database update
+
 Step 4: Run the Application
-bash
+
 dotnet run
-The API will be available at https://localhost:5001 or http://localhost:5000
