@@ -7,7 +7,8 @@ using System.Security.Claims;
 
 namespace SocialConnectAPI.Controllers
 {
-  
+
+    [Authorize]
     [ApiController]
     [Route("api")]
     public class NewsfeedController : ControllerBase
@@ -48,7 +49,6 @@ namespace SocialConnectAPI.Controllers
         }
 
 
-        [Authorize]
         [HttpPost("posts/{postId}/reaction")]
         public async Task<IActionResult> ToggleReaction(int postId, [FromBody] ReactionRequestDTO dto)
         {

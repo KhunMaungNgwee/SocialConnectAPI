@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MODEL.CommonConfig;
-using MODEL.Entity;
 using SocialConnectAPI.BAL.Service;
 using SocialConnectAPI.MODEL.DTO;
 using System.Security.Claims;
 
 namespace SocialConnectAPI.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class UploadController : ControllerBase

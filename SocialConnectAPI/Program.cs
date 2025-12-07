@@ -5,7 +5,6 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using MODEL.CommonConfig;
-using SocialConnectAPI.BAL.Service;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -61,6 +60,7 @@ builder.Services.Configure<FormOptions>(options =>
 //    });
 //});
 
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -81,8 +81,6 @@ builder.Services.AddAuthentication(options =>
             Encoding.ASCII.GetBytes("^6L@QAWsW>eUk/q|X38fHu?#=6YTWWZWXw[0T/C^O84R48NC@9p{1,~)M?2s{so"))
     };
 });
-
-builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "SocialConnectAPI", Version = "v1" });
@@ -97,20 +95,24 @@ builder.Services.AddSwaggerGen(c =>
         Description = "Enter 'Bearer' followed by your JWT token"
     });
 
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+{
     {
+        new OpenApiSecurityScheme
         {
-            new OpenApiSecurityScheme
+            Reference = new OpenApiReference
             {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
+                Type = ReferenceType.SecurityScheme,
+                Id = "Bearer"
             },
-            new string[] {}
-        }
-    });
+            Scheme = "oauth2",
+            Name = "Bearer",
+            In = ParameterLocation.Header,
+        },
+        new List<string>()
+    }
+});
+
 });
 
 var app = builder.Build();
@@ -119,18 +121,19 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseSwagger();
+//app.UseSwagger();
 
-app.UseSwaggerUI();
+//app.UseSwaggerUI();
+
 app.UseStaticFiles();
+
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
 
 app.UseAuthorization();
+app.MapControllers();
 
 app.UseCors("MyAllowSpecificOrigins");
-
-app.MapControllers();
 
 app.Run();

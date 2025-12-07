@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MODEL.CommonConfig;
 using SocialConnectAPI.BAL.IService;
 using SocialConnectAPI.MODEL.DTO;
@@ -6,6 +7,7 @@ using System.Security.Claims;
 
 namespace SocialConnectAPI.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api")]
     public class PostController : ControllerBase
