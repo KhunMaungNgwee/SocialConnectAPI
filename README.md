@@ -1,65 +1,107 @@
-SocialConnectAPI 🌐
+SocialApp Backend
 
-A modern social media backend API built with ASP.NET Core, featuring user authentication, posts, comments, reactions, and real-time interactions.
+Technology Stack: .NET Core 10 SDK (C#)
 
-🚀 Features
-🔐 User Authentication - JWT-based authentication with secure password hashing
+Description:
+This is the backend API for the SocialApp project, providing endpoints for user authentication, posts, comments, reactions, profile, and image uploads. It connects to a SQL Server database (SocialAppDB) and serves data to the React frontend.
 
-📝 Posts Management - Create, edit, delete, and view posts with images
+Features:
 
-💬 Comments System - Comment on posts with nested replies support
+RESTful API design
 
-❤️ Reactions - Like posts and comments
+JWT-based authentication (Bearer tokens)
 
-👤 User Profiles - View user profiles with statistics and activity feed
+CRUD operations for posts, comments, users, and reactions
 
-🔒 Role-based Authorization - Secure endpoints with proper authorization
+Profile and image upload endpoints
 
-📊 Pagination - Efficient data loading with pagination support
+Swagger UI enabled for interactive API documentation
 
-📄 Swagger Documentation - Interactive API documentation
+Can be run locally using IIS Express
 
-🔄 Real-time Updates - WebSocket support for live notifications
+Important Thing ==> please run with IIS Express as the HTTP and HTTPS ports differ.I useed IIS port on my reat app so.
 
-🛠️ Tech Stack
-Backend: ASP.NET Core 10.0
+Setup Instructions:
 
-Authentication: JWT (JSON Web Tokens)
+Clone the Repository
 
-Database: SQL Server with Entity Framework Core
-
-Documentation: Swagger/OpenAPI
-
-Testing: xUnit 
-
-Containerization: Docker
-
-📦 Installation & Setup
-Prerequisites
-.NET 10.0 SDK
-
-SQL Server
-
-Visual Studio 2022 or VS Code
-
-Step 1: Clone the Repository
-
-git clone https://github.com/KhunMaungNgwe/SocialConnectAPI.git
+git clone https://github.com/KhunMaungNgwee/SocialConnectAPI.git
 cd SocialConnectAPI
-Step 2: Configure Database
-Update the connection string in appsettings.json:
 
-json
-{
- "AppSetting": {
-   "ConnectionString": "Server=(localdb)\\MyLocalDb;Database=SocialAppDB;Trusted_Connection=True;"
 
- },
-}
-Step 3: Run Migrations
+Restore NuGet Packages
 
-dotnet ef database update
+dotnet restore
 
-Step 4: Run the Application
 
-dotnet run
+Database Setup
+
+Database file: SocialAppDB.mdf
+
+Option 1: Attach the .mdf file to SQL Server
+
+Option 2: Run the SQL schema script (SocialAppDB.sql) to create the database
+
+Run the Backend
+
+Open the solution in Visual Studio
+
+Select IIS Express as the launch target
+
+Make note of the HTTP and HTTPS ports used by IIS Express
+
+Start the project to run the API locally
+
+Configure Frontend Connection
+
+Update the API base URL in the frontend .env file to match IIS Express ports
+
+Swagger UI:
+
+After running the project, access Swagger UI at:
+https://localhost:{PORT}/swagger (replace {PORT} with your HTTPS port)
+
+Swagger provides interactive documentation for all endpoints, including:
+
+Authentication (/api/Auth)
+
+POST /register – Register a new user
+
+POST /login – Authenticate a user and receive JWT
+
+POST /logout – Logout the user
+
+Posts (/api/posts)
+
+GET /posts – List all posts (supports pagination)
+
+POST /posts – Create a new post
+
+PUT /posts/{postId} – Update a post by ID
+
+POST /posts/{postId}/comments – Add a comment to a post
+
+POST /posts/{postId}/reaction – React to a post
+
+GET /my-posts – Get posts created by the authenticated user
+
+Profile (/api/profile)
+
+GET /profile – Get current user profile information
+
+Image Upload (/api/Upload/image)
+
+POST – Upload an image
+
+DELETE – Delete an image by URL
+
+Notes:
+
+Ensure the frontend is running after the backend for API calls to work properly.
+
+Adjust IIS Express ports if there are conflicts with other local services.
+
+Swagger UI allows testing all endpoints and viewing required request schemas.
+
+Project Repository:
+https://github.com/KhunMaungNgwee/SocialConnectAPI.git
